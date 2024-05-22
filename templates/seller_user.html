@@ -1,0 +1,78 @@
+{% extends "common.html" %}
+{% from "card.html" import card with context %}
+
+{% block title %}{{ name }}'s Seller Profile | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>{{ name }}'s Profile {% if authed and not is_self %}
+    <weak><small>- 
+        {% if following %}
+            <a href="/seller/user/{{ name }}/unfollow" class="nav_link">Unfollow</a>
+        {% else %}
+            <a href="/seller/user/{{ name }}/follow" class="nav_link">Follow</a>
+        {% endif %}
+        {% if isadmin %}
+        <a href="/admin/user/{{ name }}" class="nav_link">admin</a>
+        {% endif %}
+    </small></weak>
+    {% endif %}</h2> 
+{% if user['admin'] %}
+<blockquote>This is an official LocksportBazaar administrator account.</blockquote>
+{% endif %}
+<p>
+    <!-- hey sellers! your bio is treated as safe, so that means you can use any markup you want here. don't abuse my trust! <3 n3rdl0rd -->
+    {{ user['bio']|safe }}<hr>
+    <blockquote>
+    {% if rating != "no" %}
+    Seller rating average: {{ rating }}/10 ({{ user['seller_rating']|length }} ratings) - <a href="/review/{{ name }}?type=seller" class="nav_link">Review seller</a>
+    {% else %}
+    This user has no seller ratings yet. Why not <a href="/review/{{ name }}?type=seller" class="nav_link">leave a review</a>?
+    {% endif %}
+    </blockquote>
+    <hr>
+    <ul>
+    {% if user['discord'] %}<li>Discord: @{{ user['discord'] }}</li>{% endif %}
+    {% if user['email'] %}<li>Email: {{ user['email'] }}</li>{% endif %}
+    {% if user['currency'] %}<li>Preferred currency: {{ user['currency'] }}</li>{% endif %}
+    {% if user['addie'] %}<li>Address/shipping from: {{ user['addie'] }}</li>{% endif %}
+    </ul>
+    {% if tableview %}
+    <h3>Seller Listings</h3>
+    <a href="/seller/user/{{ name }}?tableview=0" class="nav_link">Switch to card view</a>
+    <hr>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Belt</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+        {% for listing in listings %}
+        {% if listing['open'] %}
+        <tr>
+            <td><a href="/listing/{{ listing['id'] }}" class="nav_link">{{ listing["title"] }}</a></td>
+            <td>{{ listing["desc"]|truncate(40, true, '...') }}</td>
+            <td>{{ listing["belt"] }}</td>
+            <td>{{ currency_symbols[listing['currency']] }}{{ listing["price"] }}</td>
+            <td>{{ listing["quantity"] }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% else %}
+    <h3>Seller Listings</h3>
+    <a href="/seller/user/{{ name }}" class="nav_link">Switch to table view</a>
+    <hr>
+    <div class="card-container">
+        {% for listing in listings %}
+            {% if listing["open"] %}
+                {{ card(listing) }}
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <br><br>
+    <blockquote><a class="nav_link" href="/user/{{ name }}">See buyer profile</a></blockquote>
+</p>
+{% endblock %}

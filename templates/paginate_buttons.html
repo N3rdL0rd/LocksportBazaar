@@ -1,0 +1,5 @@
+{% macro paginate_buttons(show_back, show_forward, prev_page, next_page, sort, query_base="", path_base="/listings") -%}
+{% if show_back %}<a href="{{ path_base }}?page={{ prev_page }}&sort={{ sort }}{{ query_base }}" class="nav_link">&lt;</a>{% endif %}
+{{ page }}
+{% if show_forward %}<a href="{{ path_base }}?page={{ next_page }}&sort={{ sort }}{{ query_base }}" class="nav_link">&gt;</a>{% endif %}
+{% endmacro %}

@@ -1,0 +1,19 @@
+{% extends "common.html" %}
+
+{% block title %}Login | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>Login</h2>
+{% if error %}
+<p style="color: rgb(255, 156, 156);">{{ error|safe }}</p>
+{% endif %}
+<form method="POST">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br>
+    <input type="submit" value="Log In">
+</form>
+<br><p></p>
+<span><a href="/signup" class="nav_link">Sign up</a> &#x25cf; <a href="/forgot" class="nav_link">Forgot password</a></span>
+{% endblock %}

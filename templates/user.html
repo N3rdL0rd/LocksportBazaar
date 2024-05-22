@@ -1,0 +1,40 @@
+{% extends "common.html" %}
+
+{% block title %}{{ name }}'s Profile | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>{{ name }}'s Profile {% if authed and not is_self %}
+    <weak><small>- 
+        {% if following %}
+            <a href="/user/{{ name }}/unfollow" class="nav_link">Unfollow</a>
+        {% else %}
+            <a href="/user/{{ name }}/follow" class="nav_link">Follow</a>
+        {% endif %}
+        {% if isadmin %}
+            <a href="/admin/user/{{ name }}" class="nav_link">admin</a>
+        {% endif %}
+    </small></weak>
+    {% endif %}</h2>
+{% if user['admin'] %}
+<blockquote>This is an official LocksportBazaar administrator account.</blockquote>
+{% endif %}
+<p>
+    {% if user['approved_seller'] %}
+    {{ user['bio']|safe }}<br><br>
+    {% else %}
+    {{ user['bio'] }}<br><br>
+    {% endif %}
+    {% if rating != "no" %}
+    Buyer rating average: {{ rating }}/10 ({{ user['buyer_rating']|length }} ratings) <a href="/review/{{ name }}?type=buyer" class="nav_link">Review buyer</a><br>
+    {% else %}
+    This user has no buyer ratings yet. <a href="/review/{{ name }}?type=buyer" class="nav_link">Review seller</a><br>
+    {% endif %}
+    <ul>
+        {% if user['discord'] %}<li>Discord: @{{ user['discord'] }}</li>{% endif %}
+        {% if user['email'] %}<li>Email: {{ user['email'] }}</li>{% endif %}
+        {% if user['currency'] %}<li>Preferred currency: {{ user['currency'] }}</li>{% endif %}
+        {% if user['addie'] %}<li>Address/shipping from: {{ user['addie'] }}</li>{% endif %}
+    </ul>
+    <blockquote>This user is an approved seller! <a class="nav_link" href="/seller/user/{{ name }}">See seller profile</a></blockquote>
+</p>
+{% endblock %}

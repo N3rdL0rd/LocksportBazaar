@@ -1,0 +1,49 @@
+{% extends "common.html" %}
+
+{% block title %}Modify Listing | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>Modify Listing</h2>
+{% if error %}
+<p style="color: rgb(255, 156, 156);">{{ error|safe }}</p>
+{% endif %}
+<form method="post" id="modify_form">
+    <p>Created at {{ listing['date'] }}</p>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" value="{{ listing['title'] }}" required>
+    <label for="desc">Description</label>
+    <textarea id="desc" name="desc" required>{{ listing['desc'] }}</textarea>
+    <label for="price">Price</label>
+    <input type="number" id="price" name="price" value="{{ listing['price'] }}" required>
+    <label for="currency">Currency</label>
+    <select id="currency" name="currency" required>
+        {% for currency in currencies %}
+        <option value="{{ currency }}" {% if currency == listing['currency'] %}selected{% endif %}>{{ currency }}</option>
+        {% endfor %}
+    </select>
+    <label for="quantity">Quantity available</label>
+    <input type="number" id="quantity" name="quantity" value="{{ listing['quantity'] }}" required>
+    <label for="condition">Condition</label>
+    <select id="condition" name="condition" required>
+        <option value="Unknown/Other" selected>Unknown/Other</option>
+        <option value="New">New</option>
+        <option value="Used">Used</option>
+        <option value="Open box">Open box</option>
+    </select>
+    <label for="lpubelts">LPUBelts Lock ID</label>
+    <input type="text" id="lpubelts" name="lpubelts" value="{{ listing['lpubelts'] }}">
+    <div id="images-noscript">
+        <p>You have JavaScript disabled. Although modification of a listing will work, it won't be optimal.</p>
+        <label for="imgs">Images <small> - Make sure to follow correct JSON formatting!</small></label>
+        <input type="text" id="imgs" name="imgs" value="{{ listing['imgs'] }}" required>
+    </div>
+    <div id="images-input" style="display: none;">
+        <p>Images</p>
+        <button onclick="event.preventDefault();add_image();">Add</button> <button onclick="event.preventDefault();remove_image();">Remove</button>
+    </div>
+    <br>
+    <input type="submit" value="Modify Listing">
+</form>
+
+<script src="/static/modify.js"></script>
+{% endblock %}

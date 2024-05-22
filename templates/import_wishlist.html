@@ -1,0 +1,13 @@
+{% extends "common.html" %}
+
+{% block title %}Import Wishlist | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>Import LPUBelts Wishlist</h2>
+<p>You can (optionally) import your existing LPUBelts wishlist into LocksportBazaar to pick up where you left off. To do so, you'll need to take your profile URL and paste it in the box below - everything else will be handled automagically.</p>
+<form method="POST">
+    <input type="text" name="profile_url" placeholder="LPUBelts profile URL (https://lpubelts.com/#/profile/...)" required>
+    <br>
+    <button type="submit">Import</button>
+</form>
+{% endblock %}

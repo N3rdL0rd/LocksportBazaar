@@ -1,0 +1,21 @@
+{% extends "common.html" %}
+
+{% block title %}New WTB Post | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>New WTB Post</h2>
+{% if error %}
+<p style="color: rgb(255, 156, 156);">{{ error|safe }}</p>
+{% endif %}
+<form method="post">
+    <!-- fields: poster, lpubelts, body -->
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" value="" required>
+    <label for="body">Body</label>
+    <textarea id="body" name="body" required></textarea>
+    <label for="lpubelts">LPUBelts Lock ID</label>
+    <input type="text" id="lpubelts" name="lpubelts" value="">
+    <br>
+    <input type="submit" value="Create WTB Post">
+</form>
+{% endblock %}

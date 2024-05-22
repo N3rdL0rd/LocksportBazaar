@@ -1,0 +1,35 @@
+{% extends "common.html" %}
+{% from "card.html" import card with context %}
+{% from "paginate_buttons.html" import paginate_buttons with context %}
+
+{% block title %}Listings | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>Active Listings</h2>
+
+<form action="/listings" method="get">
+    <label for="sort">Sort by:</label>
+    <select name="sort" id="sort">
+        <option value="trending" {% if sort == "trending" %}selected{% endif %}>Trending (last 7 days)</option>
+        <option value="newest" {% if sort == "newest" %}selected{% endif %}>Newest</option>
+        <option value="oldest" {% if sort == "oldest" %}selected{% endif %}>Oldest</option>
+        <option value="top" {% if sort == "top" %}selected{% endif %}>Most Viewed</option>
+        <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>Price: Low to High</option>
+        <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>Price: High to Low</option>
+    </select>
+    <p></p>
+    <input type="submit" value="Sort">
+</form>
+<p></p>
+<div class="card-container">
+    {% for listing in listings %}
+        {% if listing["open"] %}
+            {{ card(listing) }}
+        {% endif %}
+    {% endfor %}
+</div>
+<br><br><p></p>
+<center>
+    {{ paginate_buttons(show_back, show_forward, prev_page, next_page, sort) }}
+</center>
+{% endblock %}

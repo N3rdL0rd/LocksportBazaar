@@ -1,0 +1,14 @@
+{% extends "common.html" %}
+
+{% block title %}View Stored Data | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>View Stored Data</h2>
+{% if error %}
+<p style="color: rgb(255, 156, 156);">{{ error|safe }}</p>
+{% endif %}
+<pre>
+    {{ data_user }}
+    {{ data_listings }}
+</pre>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "common.html" %}
+
+{% block title %}Review {{ name }} | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>Review {{name}}</h2>
+<form method="post">
+    <label for="rating">Rating</label>
+    <input type="number" id="rating" name="rating" min="0" max="10" required>
+    <label for="type">Type</label>
+    <select id="type" name="type">
+        <option value="buyer" {% if type == 'buyer' %}selected{% endif %}>Buyer</option>
+        <option value="seller" {% if type == 'seller' %}selected{% endif %}>Seller</option>
+    </select>
+    <label for="review">Review</label>
+    <textarea id="review" name="review" required></textarea>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% macro carousel(images) -%}
+<link rel="stylesheet" href="/static/carousel.css">
+
+<section class="carousel" aria-label="Gallery">
+    <ol class="carousel__viewport">
+        {% for image in images %}
+        <li id="carousel__slide{{ loop.index }}" tabindex="0" class="carousel__slide">
+            <img src="{{ image }}">
+            <div class="carousel__snapper">
+                <a href="#carousel__slide{{ loop.index-1 }}" class="carousel__prev">Go to previous slide</a>
+                <a href="#carousel__slide{{ loop.index+1 }}" class="carousel__next">Go to next slide</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
+    <aside class="carousel__navigation">
+        <ol class="carousel__navigation-list">
+            {% for image in images %}
+            <li class="carousel__navigation-item">
+                <a href="#carousel__slide{{ loop.index }}" class="carousel__navigation-button">Go to slide {{ loop.index+1 }}</a>
+            </li>
+            {% endfor %}
+        </ol>
+    </aside>
+</section>
+{% endmacro %}

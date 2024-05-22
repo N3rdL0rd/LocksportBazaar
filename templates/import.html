@@ -1,0 +1,183 @@
+{% extends "common.html" %}
+
+{% block content%}
+<style>
+    .hide {
+        display: none;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('style').addEventListener('change', function () {
+            if (this.value === 'makemodel') {
+                document.getElementById('tr_make').classList.remove("hide");
+                document.getElementById('tr_model').classList.remove("hide");
+                document.getElementById('tr_name').classList.add("hide");
+            } else {
+                document.getElementById('tr_make').classList.add("hide");
+                document.getElementById('tr_model').classList.add("hide");
+                document.getElementById('tr_name').classList.remove("hide");
+            }
+        });
+
+        var form = document.querySelector('form');
+
+        var hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'json_data';
+        form.appendChild(hiddenInput);
+
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var mapping;
+
+            if (document.getElementById('style').value === "makemodel") {
+                mapping = {
+                    make: parseInt(document.getElementById('make').value),
+                    model: parseInt(document.getElementById('model').value),
+                    belt: parseInt(document.getElementById('belt').value),
+                    condition: parseInt(document.getElementById('condition').value),
+                    keys: parseInt(document.getElementById('keys').value),
+                    quantity: parseInt(document.getElementById('quantity').value),
+                    image: parseInt(document.getElementById('image').value),
+                    price: parseInt(document.getElementById('price').value)
+                }
+            } else {
+                mapping = {
+                    title: parseInt(document.getElementById('title').value),
+                    belt: parseInt(document.getElementById('belt').value),
+                    condition: parseInt(document.getElementById('condition').value),
+                    keys: parseInt(document.getElementById('keys').value),
+                    quantity: parseInt(document.getElementById('quantity').value),
+                    image: parseInt(document.getElementById('image').value),
+                    price: parseInt(document.getElementById('price').value)
+                }
+            }
+
+            var jsonData = {
+                sheet_id: document.getElementById('sheet_id').value,
+                style: document.getElementById('style').value,
+                infer_id: document.getElementById('infer').checked,
+                mapping: mapping,
+                desc_mapping: {
+                    format: parseInt(document.getElementById('format').value),
+                    picked_as: parseInt(document.getElementById('pickedas').value),
+                    notes: parseInt(document.getElementById('notes').value)
+                },
+                desc_format: document.getElementById('descformat').value,
+                exclude_header: parseInt(document.getElementById('excludeheader').value),
+                weird_comma: document.getElementById('weird_comma').checked,
+                default_currency: document.getElementById('defaultcurrency').value
+            };
+
+            hiddenInput.value = JSON.stringify(jsonData);
+            form.submit();
+        });
+    });
+</script>
+
+<noscript>
+    <blockquote>Hello, noscript user! Unfortunately, this page is the <i>only one on the site</i> that requires scripts.
+        Sorry!</blockquote>
+</noscript>
+<h2>Import Seller Sheet</h2>
+<blockquote>Hello! This functionality is a work in progress, but most (if not all) seller sheets work with it.
+    If you have any issues using this tool, please contact me on Discord @n3rdl0rd.</blockquote>
+<form method="POST">
+    <label for="sheet_id">Google Sheets ID <small>(the part in the URL after https://docs.google.com/spreadsheets/d/ and
+            before /edit)</small></label>
+    <input type="text" id="sheet_id" name="sheet_id">
+    <label for="style">Style</label>
+    <select name="style" id="style">
+        <option value="makemodel" selected>Make/Model (make and model in seperate columns)</option>
+        <option value="unified">Unified (one column for listing title)</option>
+    </select>
+    <label for="infer">Infer LPUBelts ID <small>(for sheets that do not have direct links to LPUBelts)</small></label>
+    <input type="checkbox" name="infer" id="infer"><br>
+    <p></p>
+    Mappings
+    <table>
+        <tr>
+            <th>Data</th>
+            <th>Col # <small>(Starting at 0)</small></th>
+        </tr>
+        <!-- show if makemodel -->
+        <tr id="tr_make">
+            <td>Make</td>
+            <td><input type="number" name="make" id="make" value="0"></td>
+        </tr>
+        <tr id="tr_model">
+            <td>Model</td>
+            <td><input type="number" name="model" id="model" value="1"></td>
+        </tr>
+        <!-- show if unified -->
+        <tr id="tr_name" class="hide">
+            <td>Name</td>
+            <td><input type="number" name="title" id="title"></td>
+        </tr>
+        <!-- both -->
+        <tr>
+            <td>Belt</td>
+            <td><input type="number" name="belt" id="belt" value="2"></td>
+        </tr>
+        <tr>
+            <td>Condition <small>(optional)</small></td>
+            <td><input type="number" name="condition" id="condition" value="5"></td>
+        </tr>
+        <tr>
+            <td># of Keys <small>(optional)</small></td>
+            <td><input type="number" name="keys" id="keys" value="6"></td>
+        </tr>
+        <tr>
+            <td>Quantity Available</td>
+            <td><input type="number" name="quantity" id="quantity" value="7"></td>
+        </tr>
+        <tr>
+            <td>Image Link <small>(optional)</small></td>
+            <td><input type="number" name="image" id="image" value="9"></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><input type="number" name="price" id="price" value="8"></td>
+        </tr>
+        <tr>
+            <td>LPUBelts Link <small>(optional)</small></td>
+            <td><input type="number" name="lpubelts" id="lpubelts" value="11"></td>
+        </tr>
+        <tr>
+            <td>Format <small>(optional)</small></td>
+            <td><input type="number" name="format" id="format" value="4"></td>
+        </tr>
+        <tr>
+            <td>Picked As <small>(optional)</small></td>
+            <td><input type="number" name="pickedas" id="pickedas" value="3"></td>
+        </tr>
+        <tr>
+            <td>Notes <small>(optional)</small></td>
+            <td><input type="number" name="notes" id="notes" value="3"></td>
+        </tr>
+    </table>
+    <label for="descformat">Description Format</label>
+    <input type="text" name="descformat" id="descformat"
+        value="Format: {format}, Picked as {picked_as}. Additional notes: {notes}">
+    <label for="excludeheader"># of Header Rows</label>
+    <input type="number" name="excludeheader" id="excludeheader" value="1">
+    <label for="defaultcurrency">Default Currency</label>
+    <select name="defaultcurrency" id="defaultcurrency">
+        {% for currency in currencies %}
+        <option value="{{ currency }}" {% if currency==default_currency %}selected{% endif %}>{{ currency }}</option>
+        {% endfor %}
+    </select>
+    <p></p>
+    <details>
+        <summary>Advanced Options</summary>
+        <label for="weird_comma">Replace Weird Comma <small>(I'm looking at you, JayDee)</small></label>
+        <input type="checkbox" name="weird_comma" id="weird_comma">
+    </details>
+    <br>
+    <input type="submit" value="Import Sheet">
+</form>
+{% endblock %}

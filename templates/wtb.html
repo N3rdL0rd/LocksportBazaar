@@ -1,0 +1,27 @@
+{% extends "common.html" %}
+{% from "paginate_buttons.html" import paginate_buttons with context %}
+
+{% block title %}WTB Posts | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>WTB Posts</h2>
+<center>
+    <a href="/wtb/new" class="nav_link">New WTB Post</a>
+</center>
+<p>
+    <div class="card-container">
+    {% for post in posts %}
+    <div class="card">
+        <a class="nav_link" href="/wtb/{{ post['id'] }}">{{ post["title"] }}</a>
+        <div class="seller">Poster: <a href="/user/{{ post['poster'] }}">{{ post['poster'] }}</a></div>
+        <p>{{ post['desc']|truncate(50, true, '...') }}</p>
+        <a href="/wtb/{{ post['id'] }}" class="nav_link"><button>View Post</button></a>
+    </div>
+    {% endfor %}
+    </div>
+    <center>
+        {% if show_back %}<a href="/wtb?page={{ pagenum-1 }}" class="nav_link">Previous Page</a>{% endif %}
+        {% if show_forward %}<a href="/wtb?page={{ pagenum+1 }}" class="nav_link">Next Page</a>{% endif %}
+    </center>
+</p>
+{% endblock %}

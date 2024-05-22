@@ -1,0 +1,34 @@
+{% extends "common.html" %}
+
+{% block title %}Admin | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>selected user</h2>
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Discord</th>
+        <th>Name</th>
+        <th>Currency</th>
+        <th>Seller</th>
+        <th>Admin</th>
+    </tr>
+    <tr>
+        <td>{{ name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.discord }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.currency }}</td>
+        <td>{% if user.approved_seller %}Yes{% else %}No{% endif %}</td>
+        <td>{% if user.admin %}Yes{% else %}No{% endif %}</td>
+    </tr>
+</table>
+
+<a href="/admin/authorize/{{ name }}" class="nav_link">authorize seller</a><br>
+<a href="/admin/deauthorize/{{ name }}" class="nav_link">deauthorize seller</a><br>
+<a href="/admin/recover/{{ name }}" class="nav_link">recover password</a><br>
+<a href="/admin" class="nav_link">back</a>
+<br><br><br><p><p></p></p> <!-- spaced so accidental deletions don't happen -->
+<a href="/admin/delete/{{ name }}" class="nav_link">delete user</a><br>
+{% endblock %}

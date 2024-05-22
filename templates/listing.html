@@ -1,0 +1,50 @@
+{% extends "common.html" %}
+{% from "carousel.html" import carousel with context %}
+
+{% block title %}{% if not error %}{{ listing['title'] }}{% endif %} | LocksportBazaar{% endblock %}
+
+{% block content%}
+{% if error %}
+<p style="color: rgb(255, 156, 156);">{{ error|safe }}</p>
+{% else %}
+
+<center>
+<h2>{{ listing['title'] }}</h2>
+<span>Seller: <a href="/seller/user/{{ listing['seller'] }}">{{ listing['seller'] }}</a>
+{% if isadmin %}
+    (<a href="/admin/user/{{ listing['seller'] }}" class="nav_link">user</a>/<a href="/admin/listing/{{ listing['id'] }}" class="nav_link">listing</a> admin)
+{% endif %}
+</span>
+{{ carousel(listing['imgs']) }}
+<div class="price_large">
+    {{ currency_symbols[user_currency] }}{{ '%.2f' % listing['price'] }}
+    {% if listing['orig_currency'] != user_currency %} 
+        <div class="tooltip"><i>(originally {{ currency_symbols[listing['orig_currency']] }}{{ '%.2f' % listing['orig_price'] }})</i>
+            <span class="tooltiptext">Original price before conversion to your selected currency</span>
+        </div>
+    {% endif %}
+</div>
+<p>{{ listing['desc']|safe }}</p>
+<small><p>Shipping from {{ seller["addie"] }}</p></small>
+</center>
+<br>
+
+<div style="display: inline-block;">
+    <center>
+        <a href="/contact/{{ listing['id'] }}"><button>Contact seller</button></a>
+        {% if listing['lpubelts'] %}
+            <a href="https://lpubelts.com/#/locks?id={{ listing['lpubelts'] }}" target="_blank"><button>View on LPUBelts</button></a>
+        {% endif %}
+        {% if show_wished %}
+            {% if is_wished %}
+                <a href="/listing/{{ listing['id'] }}/unwishlist"><button>Remove from wishlist</button></a>
+            {% else %}
+                <a href="/listing/{{ listing['id'] }}/wishlist"><button>Add to wishlist</button></a>
+            {% endif %}
+        {% endif %}
+        <a href="/listings"><button>Back</button></a>
+    </center>
+</div>
+
+{% endif %}
+{% endblock %}

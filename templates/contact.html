@@ -1,0 +1,22 @@
+{% extends "common.html" %}
+
+{% block title %}{% if not error %}Contact seller: {{ listing['title'] }}{% endif %} | LocksportBazaar{% endblock %}
+
+{% block content%}
+{% if error %}
+<p style="color: rgb(255, 156, 156);">{{ error|safe }}</p>
+{% else %}
+<center>
+    <h2>{{ listing['title'] }}</h2>
+    <div class="seller">Seller: <a href="/seller/user/{{ listing['seller'] }}">{{ listing['seller'] }}</a></div>
+</center>
+<form method="POST">
+    <label for="msg">Message <small>Warning! There is no functionality to reply to a message as a seller. Please include some contact information or ensure that you have your Discord or email in your profile.</small></label>
+    <textarea id="msg" name="msg"></textarea>
+    <p></p>
+    <input type="submit" value="Send">
+</form>
+<p></p>
+<a role="button" href="/listings" class="nav_link">Back</a>
+{% endif %}
+{% endblock %}

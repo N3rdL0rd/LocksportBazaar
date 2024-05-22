@@ -1,0 +1,87 @@
+{% extends "common.html" %}
+{% from "card.html" import card with context %}
+{% from "paginate_buttons.html" import paginate_buttons with context %}
+
+{% block title %}Search | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>Search Listings</h2>
+<form action="/search" method="get">
+    <label for="query">Search query:</label>
+    <input type="text" name="query" id="query" value="{{ query }}">
+    <p></p>
+    <details>
+        <summary>More options</summary>
+        <label for="sort">Sort by:</label>
+        <select name="sort" id="sort">
+            <option value="trending" {% if sort == "trending" %}selected{% endif %}>Trending (last 7 days)</option>
+            <option value="newest" {% if sort == "newest" %}selected{% endif %}>Newest</option>
+            <option value="oldest" {% if sort == "oldest" %}selected{% endif %}>Oldest</option>
+            <option value="top" {% if sort == "top" %}selected{% endif %}>Most Viewed</option>
+            <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>Price: Low to High</option>
+            <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>Price: High to Low</option>
+        </select>
+        <label for="belt">Filter to belt:</label>
+        <select name="belt" id="belt">
+            <option value="none" {% if belt == "none" %}selected{% endif %}>Any</option>
+            <option value="White" {% if belt == "White" %}selected{% endif %}>White</option>
+            <option value="Yellow" {% if belt == "Yellow" %}selected{% endif %}>Yellow</option>
+            <option value="Orange" {% if belt == "Orange" %}selected{% endif %}>Orange</option>
+            <option value="Green" {% if belt == "Green" %}selected{% endif %}>Green</option>
+            <option value="Blue" {% if belt == "Blue" %}selected{% endif %}>Blue</option>
+            <option value="Purple" {% if belt == "Purple" %}selected{% endif %}>Purple</option>
+            <option value="Brown" {% if belt == "Brown" %}selected{% endif %}>Brown</option>
+            <option value="Red" {% if belt == "Red" %}selected{% endif %}>Red</option>
+            <option value="Black 1" {% if belt == "Black 1" %}selected{% endif %}>Black 1</option>
+            <option value="Black 2" {% if belt == "Black 2" %}selected{% endif %}>Black 2</option>
+            <option value="Black 3" {% if belt == "Black 3" %}selected{% endif %}>Black 3</option>
+            <option value="Black 4" {% if belt == "Black 4" %}selected{% endif %}>Black 4</option>
+            <option value="Black 5" {% if belt == "Black 5" %}selected{% endif %}>Black 5</option>
+        </select>
+        <label for="mechanism">Filter to mechanism:</label>
+        <select name="mechanism" id="mechanism">
+            <option value="none" {% if selected_mechanism == "none" %}selected{% endif %}>Any</option>
+            {% for mechanism in mechanisms %}
+            <option value="{{ mechanism }}" {% if mechanism == selected_mechanism %}selected{% endif %}>{{ mechanism }}</option>
+            {% endfor %}
+        </select>
+        <label for="location">Filter to approximate location:</label>
+        <select name="location" id="location">
+            <option value="none" {% if selected_mechanism == "none" %}selected{% endif %}>Any</option>
+            {% for location in locations %}
+            <option value="{{ location }}" {% if location == selected_location %}selected{% endif %}>{{ location }}</option>
+            {% endfor %}
+        </select>
+        <label for="brand">Filter to make:</label>
+        <select name="brand" id="brand">
+            <option value="none" {% if selected_brand == "none" %}selected{% endif %}>Any</option>
+            {% for brand in brands %}
+            <option value="{{ brand }}" {% if brand == selected_brand %}selected{% endif %}>{{ brand }}</option>
+            {% endfor %}
+        </select>
+        <label for="show_closed">Show closed listings</label>
+        <input type="checkbox" name="show_closed" id="show_closed" {% if show_all %}checked{% endif %}>
+        <br>
+        <label for="min_price">Minimum price</label>
+        <input type="number" name="min_price" id="min_price" value="{{ min_price }}">
+        <label for="max_price">Maximum price</label>
+        <input type="number" name="max_price" id="max_price" value="{{ max_price }}">
+</details>
+    <p></p>
+    <input type="submit" value="Search">
+</form>
+<p></p>
+<div class="card-container">
+    {% for listing in listings %}
+        {% if listing["open"] or show_all %}
+            {{ card(listing) }}
+        {% endif %}
+    {% endfor %}
+</div>
+<br><br><p></p>
+<center>
+{{ paginate_buttons(show_back, show_forward, prev_page, next_page, sort, query_base=query_base, path_base="/search") }}
+<p></p>
+Can't find what you're looking for? <a href="/wtb">Make a WTB post</a>
+</center>
+{% endblock %}

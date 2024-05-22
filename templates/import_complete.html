@@ -1,0 +1,36 @@
+{% extends "common.html" %}
+{% from "card.html" import card with context %}
+
+{% block title %}Imported Sheet | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>Import Seller Sheet</h2>
+<blockquote>Your sheet has been imported. Below you can preview the listings, and see errors that were encountered during the process. You can then either go back, tweak settings and try again, or post these listings and finalize the import.</blockquote>
+<div class="card-container">
+{% for listing in listings %}
+    {{ card(listing) }}
+{% endfor %}
+</div>
+<br>
+<h2>Import Errors</h2>
+{% if errors|length == 0 %}
+    <blockquote>No errors were encountered during the import. Yay!</blockquote>
+{% else %}
+<table>
+    <tr>
+        <th>Row</th>
+        <th>Error</th>
+    </tr>
+    {% for error in errors %}
+    <tr>
+        <td>{{ error[0] }}</td>
+        <td>{{ error[1] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+<form method="POST">
+    <a href="/seller/import"><button>Back</button></a>
+    <input type="submit" value="Post listings">
+</form>
+{% endblock %}

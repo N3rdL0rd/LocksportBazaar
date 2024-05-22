@@ -1,0 +1,17 @@
+{% extends "common.html" %}
+
+{% block title %}Admin | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>recover password for {{ name }}</h2>
+
+{% if new_password %}
+<br>
+new password: <code>{{ new_password }}</code>
+<br>
+{% endif %}
+
+<a href="/admin/recover/{{ name }}/random"><button>set to random</button></a>
+<p>TODO: manual passsword set</p>
+<a href="/admin/user/{{ name }}" class="nav_link">back</a>
+{% endblock %}

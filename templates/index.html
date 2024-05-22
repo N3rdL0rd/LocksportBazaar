@@ -1,0 +1,15 @@
+{% extends "common.html" %}
+{% from "card.html" import card with context %}
+
+{% block content%}
+<h2>Trending (Last 7 days)</h2>
+<div class="card-container">
+  {% for listing in trending_listings %}
+    {{ card(listing) }}
+  {% endfor %}
+</div>
+<p></p>
+<center>
+  <a href="/listings" class="nav_link">View more listings</a>
+</center>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "common.html" %}
+
+{% block title %}Recover Account | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>Recover Account</h2>
+{% if error %}
+<p style="color: rgb(255, 156, 156);">{{ error|safe }}</p>
+{% endif %}
+<form method="POST">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <input type="submit" value="Begin recovery">
+</form>
+<br><p></p>
+<span><a href="/login" class="nav_link">Log in</a> &#x25cf; <a href="/signup" class="nav_link">Register</a></span>
+{% endblock %}

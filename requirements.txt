@@ -1,0 +1,15 @@
+flask
+bcrypt
+CurrencyConverter
+rapidfuzz
+babel
+uvicorn
+asgiref
+Flask-Caching
+oauth2client
+gspread
+google-auth
+google-auth-oauthlib
+google-api-python-client
+flask-cors
+pillow

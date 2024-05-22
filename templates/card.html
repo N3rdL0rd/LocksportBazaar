@@ -1,0 +1,10 @@
+{% macro card(listing) %}
+<div class="card" data-belt-color="{{ listing['belt'] }}">
+    <a class="nav_link" href="/listing/{{ listing['id'] }}">{{ listing['title'] }}</a>
+    <img src="{{ listing['imgs'][0] }}" alt="Product Image">
+    <div class="seller">Seller: <a href="/seller/user/{{ listing['seller'] }}">{{ listing['seller'] }}</a></div>
+    <div class="price">{{ currency_symbols[user_currency] }}{{ '%.2f' % listing['price'] }}{% if listing['orig_currency'] != user_currency %} <i>(originally {{ currency_symbols[listing['orig_currency']] }}{{ '%.2f' % listing['orig_price'] }})</i>{% endif %}</div>
+    <p>{{ listing['desc']|truncate(50, true, '...') }}</p>
+    <a href="/listing/{{ listing['id'] }}" class="nav_link"><button>View Listing Details</button></a>
+</div>
+{% endmacro %}

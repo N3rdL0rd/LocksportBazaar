@@ -1,0 +1,36 @@
+{% extends "common.html" %}
+
+{% block title %}Admin | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>admin console or something</h2>
+<h2>users</h2>
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Discord</th>
+        <th>Name</th>
+        <th>Currency</th>
+        <th>Seller</th>
+        <th>Admin</th>
+        <th>Actions</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.discord }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.currency }}</td>
+        <td>{% if user.approved_seller %}Yes{% else %}No{% endif %}</td>
+        <td>{% if user.admin %}Yes{% else %}No{% endif %}</td>
+        <td><a href="/admin/user/{{ user.username }}" class="nav_link">view</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>db actions</h2>
+<a href="/admin/reload_db" class="nav_link">reload db</a>
+    
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "common.html" %}
+
+{% block title %}Apply | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>Apply to be a Seller</h2>
+{% if success %}
+<p>Application submitted. You'll be reached out to on Discord to confirm that this is really you.</p>
+{% endif %}
+<form method="post">
+    <p>Before applying, make sure you've put your Discord username in your profile. You'll be reached out to on Discord to confirm that this is really you.</p>
+    <label for="reputation">Evidence of reputation:</label>
+    <textarea name="reputation" id="reputation"></textarea>
+    <p>If you're already selling in the Bazaar forums, you'll be approved anyway, so leave this blank.</p>
+    <p></p>
+    <input type="submit" value="Apply">
+</form>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "common.html" %}
+
+{% block title %}Notifications | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>Notifications</h2>
+{% if notifications %}
+    <div class="card-container">
+        {% for notification in notifications|reverse %}
+        <div class="card">
+            {% if notification["href"] %}<a class="nav_link" href="{{ notification['href'] }}">{{ notification['msg']|safe }}</a>{% else %}<span>{{ notification['msg'] }}</span>{% endif %}
+            <br>Sent at {{ notification['time']|format_datetime }}
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No notifications</p>
+{% endif %}
+{% endblock %}

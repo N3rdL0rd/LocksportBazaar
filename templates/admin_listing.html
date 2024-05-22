@@ -1,0 +1,24 @@
+{% extends "common.html" %}
+
+{% block title %}Admin | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>selected listing</h2>
+<table>
+    <tr>
+        <th>title</th>
+        <th>price</th>
+        <th>seller</th>
+    </tr>
+    <tr>
+        <td>{{ listing['title'] }}</td>
+        <td>{{ listing['seller'] }}</td>
+        <td>{{ listing['price'] }}</td>
+    </tr>
+</table>
+
+<a href="/listing/{{ listing['id'] }}" class="nav_link">back</a>
+<br><br><br><p><p></p></p> <!-- spaced so accidental deletions don't happen -->
+<a href="/admin/listing/close/{{ listing['id'] }}" class="nav_link">close listing</a><br>
+<a href="/admin/listing/delete/{{ listing['id'] }}" class="nav_link">delete listing</a><br>
+{% endblock %}

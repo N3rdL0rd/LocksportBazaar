@@ -1,0 +1,148 @@
+{% extends "common.html" %}
+
+{% block title %}Profile | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>Your Profile</h2>
+<p>
+    Welcome, {{ user['username'] }}!
+    {% if user['admin'] %}
+        <a href="/admin" class="nav_link">admin</a>
+    {% endif %}
+    <a role="button" href="/logout" class="nav_link">Logout</a> - <a href="/profile/password" class="nav_link">Change password</a>
+    <form method="POST">
+        <label for="bio">Bio</label>{% if user['approved_seller'] %} <small>(All HTML tags are supported, including style - go wild)</small>{% endif %}
+        <textarea id="bio" name="bio">{{ user['bio'] }}</textarea>
+        <label for="discord">Discord Username <small>(no @)</small></label>
+        <input type="text" id="discord" name="discord" value="{{ user['discord'] }}">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ user['email'] }}">
+        <label for="name">Full Name <small>(for shipping)</small></label>
+        <input type="text" name="name" id="name" value="{{ user['name'] }}">
+        <label for="addie">Address <small>(published for sellers - this can be just a zipcode)</small></label>
+        <input type="text" name="addie" id="addie" value="{{ user['addie'] }}">
+        <label for="general_location">General location</label>
+        <select id="general_location" name="general_location">
+            {% for location in valid_locations %}
+            <option value="{{ location }}" {% if location == user['general_location'] %}selected{% endif %}>{{ location }}</option>
+            {% endfor %}
+        </select>
+        <label for="currency">Preferred Currency</label>
+        <select id="currency" name="currency">
+            {% for currency in currencies %}
+            <option value="{{ currency }}" {% if currency == user['currency'] %}selected{% endif %}>{{ currency }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Save changes">
+    </form>
+    <p></p>
+    <div id="push-container"><noscript><blockquote>You have JavaScript disabled. Push notifications will not work.</blockquote></noscript></div>
+    <div id="push-dynamic"></div>
+</p>
+<h2>Your Wishlist</h2>
+<p>
+    <a role="button" href="/profile/import"><button>Import LPUBelts Wishlist</button></a>
+    {% if wishlist_lpubelts|length == 0 and wishlist_seperate|length == 0 %}<blockquote>You don't have anything wishlisted yet. <a href="/listings" class="nav_link">Browse listings</a> to get started!</blockquote>{% else %}
+        {% if wishlist_lpubelts|length != 0 %}
+            <p><b>Wishlisted Locks</b></p>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Belt</th>
+                    <th># of listings</th>
+                    <th>Actions</th>
+                </tr>
+                {% for listing in wishlist_lpubelts %}
+                <tr>
+                    <td>{{ listing["title"] }}</td>
+                    <td>{{ listing["belt"] }}</td>
+                    <td>x{{ listing["quantity"] }}</td>
+                    <td>
+                        {% if listing["quantity"] > 0 %}<a class="nav_link" href="/listings/{{ listing['id'] }}">view listings</a>{% endif %}
+                        <a class="nav_link" href="/listing/unwishlist/{{ listing['id'] }}">remove</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+        {% endif %}
+        {% if wishlist_seperate|length != 0 %}
+            <p><b>Wishlisted Listings</b></p>
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Quantity available</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+                {% for listing in wishlist_seperate %}
+                <tr>
+                    <td>{{ listing["title"] }}</td>
+                    <td>{{ listing["desc"]|truncate(20, true, '...') }}</td>
+                    <td>x{{ listing["quantity"] }}</td>
+                    <td>{{ listing["price"] }} {{ listing['currency'] }}</td>
+                    <td>
+                        <a class="nav_link" href="/listing/{{ listing['id'] }}">view</a>
+                        <a class="nav_link" href="/listing/{{ listing['id'] }}/unwishlist">remove</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endif %}
+</p>
+<p>
+    {% if user['approved_seller'] %}
+        <blockquote>You're already an approved seller. Thank you for your contributions to the community!</blockquote>
+        <br>
+        <h2 id="listings">Your{% if not showclosed %} Open{% endif %} Listings</h2>
+        <div style="display: inline-block;">
+            <a href="/seller/new"><button>Create new listing</button></a>
+            <a href="/seller/import"><button>Import listings from sheet</button></a>
+        </div>
+        <br>
+
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            {% for listing in user_listings %}
+            {% if listing["open"] %}
+            <tr>
+                <td>{{ listing["title"] }}</td>
+                <td>{{ listing["desc"]|truncate(20, true, '...') }}</td>
+                <td>x{{ listing["quantity"] }}</td>
+                <td>
+                    <a class="nav_link" href="/seller/modify/{{ listing['id'] }}">modify</a>
+                    <a class="nav_link" href="/seller/close/{{ listing['id'] }}">close</a>
+                </td>
+            </tr>
+            {% elif showclosed %}
+            <tr>
+                <td>{{ listing["title"] }}</td>
+                <td>{{ listing["desc"]|truncate(20, true, '...') }}</td>
+                <td><i>closed</i></td>
+                <td>
+                    <a class="nav_link" href="/seller/open/{{ listing['id'] }}">open</a>
+                    <a class="nav_link" href="/seller/delete/{{ listing['id'] }}">delete</a>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+        <br><br>
+        {% if not showclosed %}
+        <a role="button" href="/profile?closed#listings"><button>Show closed listings</button></a>
+        {% else %}
+        <a role="button" href="/profile#listings"><button>Hide closed listings</button></a>
+        {% endif %}
+    {% else %}
+        <blockquote>You aren't an approved seller. <a href="/seller/apply" class="nav_link">Apply now!</a></blockquote>
+    {% endif %}
+</p>
+{% endblock %}

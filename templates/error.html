@@ -1,0 +1,14 @@
+{% extends "common.html" %}
+
+{% block title %}Error | LocksportBazaar{% endblock %}
+
+{% block content%}
+<center>
+<h2>Error!</h2>
+{% if status_code %}
+<img src="https://http.cat/{{ status_code }}" width="80%">
+{% else %}
+<p>{{ error }}</p>
+{% endif %}
+</center>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "common.html" %}
+
+{% block title %}New Listing | LocksportBazaar{% endblock %}
+
+{% block content%}
+<h2>New Listing</h2>
+{% if error %}
+<p style="color: rgb(255, 156, 156);">{{ error|safe }}</p>
+{% endif %}
+<form method="post" enctype="multipart/form-data">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" value="" required>
+    <label for="desc">Description</label>
+    <textarea id="desc" name="desc" required></textarea>
+    <label for="price">Price</label>
+    <input type="number" id="price" name="price" required>
+    <label for="currency">Currency</label>
+    <select id="currency" name="currency" required>
+        {% for currency in currencies %}
+        <option value="{{ currency }}" {% if currency == user_currency %}selected{% endif %}>{{ currency }}</option>
+        {% endfor %}
+    </select>
+    <label for="quantity">Quantity available</label>
+    <input type="number" id="quantity" name="quantity" value="1" required>
+    <label for="condition">Condition</label>
+    <select id="condition" name="condition" required>
+        <option value="Unknown/Other" selected>Unknown/Other</option>
+        <option value="New">New</option>
+        <option value="Used">Used</option>
+        <option value="Open box">Open box</option>
+    </select>
+    <label for="lpubelts">LPUBelts Lock ID</label>
+    <input type="text" id="lpubelts" name="lpubelts" value="">
+    <label for="images">Images</label>
+    <input type="file" name="images" id="images" accept="image/*" required multiple>
+    <input type="submit" value="Post Listing">
+</form>
+{% endblock %}
