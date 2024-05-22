@@ -164,4 +164,4 @@ cython_debug/
 user_content
 token.json
 
-data/*
+data

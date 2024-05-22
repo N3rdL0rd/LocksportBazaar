@@ -4,7 +4,9 @@
 
 ## Installation
 
-One-liner: `python3 -m venv env && source ./env/bin/activate && pip install -r requirements.txt && python serve.py`
+One-liner (Linux): `python3 -m venv env && source ./env/bin/activate && pip install -r requirements.txt && python serve.py`
+
+For Windows: `python -m venv env && env\Scripts\activate && pip install -r requirements.txt && python serve.py`
 
 > [!NOTE]  
 > This *should* work for most things, but features that are dependent on the Google API, the Imgur API, and the LPUBelts Wishlist API won't work out of the box.
