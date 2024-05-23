@@ -1,5 +1,5 @@
-VERSION = "0.1a - Public Alpha"
-DEBUG = True
+VERSION = "1.0"
+DEBUG = False
 UPLOAD_FOLDER = './user_content'
 ALLOWED_EXTENSIONS = {'png', 'webp', 'jpeg', 'jpg', 'gif'}
 PAGE_LENGTH = 10
