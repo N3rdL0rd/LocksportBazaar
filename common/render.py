@@ -16,7 +16,7 @@ nav_items = [
 ]
 
 footer_items = [
-    {'href': '', 'caption': 'GitHub'},
+    {'href': 'https://github.com/N3rdL0rd/LocksportBazaar', 'caption': 'GitHub'},
     {'href': '/about', 'caption': 'About'},
     {'href': '/privacy', 'caption': 'Privacy'},
     {'href': '/tos', 'caption': 'Terms of Service'},
