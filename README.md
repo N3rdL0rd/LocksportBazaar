@@ -2,6 +2,8 @@
 
 > hi mgsecure
 
+A marketplace for organizing informal deals for the [locksport](https://en.wikipedia.org/wiki/Locksport) community - based on LPU's Bazaar, but like, web based and stuff.
+
 ## Installation
 
 One-liner (Linux): `python3 -m venv env && source ./env/bin/activate && pip install -r requirements.txt && python serve.py`
